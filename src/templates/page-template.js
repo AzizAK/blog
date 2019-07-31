@@ -1,11 +1,11 @@
 // @flow
-import React from 'react';
-import { graphql } from 'gatsby';
-import Layout from '../components/Layout';
-import Sidebar from '../components/Sidebar';
-import Page from '../components/Page';
-import { useSiteMetadata } from '../hooks';
-import type { MarkdownRemark } from '../types';
+import React from "react";
+import { graphql } from "gatsby";
+import Layout from "../components/Layout";
+import Sidebar from "../components/Sidebar";
+import Page from "../components/Page";
+import { useSiteMetadata } from "../hooks";
+import type { MarkdownRemark } from "../types";
 
 type Props = {
   data: {
@@ -21,10 +21,10 @@ const PageTemplate = ({ data }: Props) => {
 
   return (
     <Layout title={`${pageTitle} - ${siteTitle}`} description={metaDescription}>
-      <Sidebar />
       <Page title={pageTitle}>
         <div dangerouslySetInnerHTML={{ __html: pageBody }} />
       </Page>
+      <Sidebar />
     </Layout>
   );
 };
