@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  url: "https://lumen.netlify.com",
+  url: "http://kharashi.me",
   pathPrefix: "/",
   title: "مدونة عبدالعزيز الخراشي",
   subtitle: "شغوف بتحويل الأفكار لحقيقة",
@@ -26,7 +26,7 @@ module.exports = {
   ],
   author: {
     name: "عبدالعزيز الخراشي",
-    photo: "/photo.jpg",
+    photo: "/photo.png",
     bio: "شغوف بتحويل الأفكار لحقيقة",
     contacts: {
       email: "#",
