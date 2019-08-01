@@ -1,47 +1,66 @@
 ---
+template: post
 title: مبادئ SOLID في الـObject Oriented
-date: "2019-07-30T22:40:32.169Z"
-template: "post"
+slug: /posts/solid-principles/
 draft: false
-slug: "/posts/solid-princples/"
-category: "برمجة"
+date: '2019-07-30T22:40:32.169Z'
+description: هنا سيتم كتابة وصف للمقالة
+category: برمجة
 tags:
-  - "برمجة"
-  - "تقنية"
-description: "هنا سيتم كتابة وصف للمقالة"
+  - برمجة
+  - تقنية
 ---
-
-- [المقدمة](#مقدمة)
-- [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
-- [Loss of humanity through transitions](#loss-of-humanity-through-transitions)
-- [Chasing perfection](#chasing-perfection)
+* [المقدمة](#مقدمة)
+* [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
 
 ## مقدمة
 
 **S.O.L.I.D.** هي أختصار لخمسة مبادئ أساسية عندما تقوم ببرمجة بإستخدام الـObject Oriented
 
 1. Single Responsibility Principle
-
 2. Open\Closed Principle
-
 3. Liskov Substitution Principle
-
 4. Interfaces Segregation Principle
-
 5. Dependency Inversion Principle
 
-قام Robert C. Martin المعروف بـ Uncle Bob بتقديمها لأول مره في كتابة **Book Name** عام 2000م
+قام [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـ Uncle Bob بتقديمها لأول مره في رسالته "Design Principles and Design Patterns"
 
-##ماهي الفائدة من هذه المبادئ؟
-عندما تقوم ببرمجة النظام وفقاً لهذه المبادئ سيكون لديك نظام أسهل في الفهم لك وللمبرمجين الآخرين, أسهل في الصيانة، وقابل للتوسع
+### ماهي الفائدة من هذه المبادئ؟
+عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف لاحقاً كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر.
 
-### المبدئ الأول: Single Responsibility Principle
+### المبدأ الأول: Single Responsibility Principle
+المبدأ الأول مبني على قاعدة أساسية وهي في حالة كتابتك أي نص برمجي يجب أن يكون له سبب واحد للتغيير ومهمة واحدة يعمل لها.
+>> A class should have one and only one reason to change, meaning that a class should have only one job.
 
-هنا الشرح
+### المبدأ الثاني: Open/Closed Principle
 
-### المبدئ الثاني: Open/Closed Principle
+المبدأ الثاني بكل بساطة معناه أن يكون الـClass قابل لتمدد بدون مايتم التعديل على الـClass نفسه
 
-هنا الشرح
+>> Objects or entities should be open for extension, but closed for modification.
+
+من أشهر الأمثلة على هذا المبدأ هو AreaCalculator للـShapes.
+أحرص دائماً على كتابة Class فيه المتطلبات الأساسية له وأترك الباقي يتولى أمره من سيقوم بوراثته Inheritance 
+```csharp
+public class Rectangle
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+}
+public class AreaCalculator
+{
+    public double Area(Rectangle[] shapes)
+    {
+        double area = 0;
+        foreach (var shape in shapes)
+        {
+            area += shape.Width*shape.Height;
+        }
+
+        return area;
+    }
+}
+```
+
 
 ### المبدئ الثالث: Liskov Substitution Principle
 
