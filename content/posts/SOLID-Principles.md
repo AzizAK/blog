@@ -26,20 +26,23 @@ tags:
 قام [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـ Uncle Bob بتقديمها لأول مره في رسالته "Design Principles and Design Patterns"
 
 ### ماهي الفائدة من هذه المبادئ؟
+
 عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف لاحقاً كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر.
 
 ### المبدأ الأول: Single Responsibility Principle
-المبدأ الأول مبني على قاعدة أساسية وهي في حالة كتابتك أي نص برمجي يجب أن يكون له سبب واحد للتغيير ومهمة واحدة يعمل لها.
->> A class should have one and only one reason to change, meaning that a class should have only one job.
+
+المبدأ الأول مبني على قاعدة أساسية وهي في حالة كتابتك أي Class يجب أن يكون له سبب واحد للتغيير ومهمة واحدة يعمل لها. كأن أن لا يكون لديك Employee Class يحفظ معلومات الموظف ويقوم بالإتصال بقاعدة البيانات مثلاً هنا يجب أن تفصل مابين هذه المهمتين.
+
+> > A class should have one and only one reason to change, meaning that a class should have only one job.
 
 ### المبدأ الثاني: Open/Closed Principle
 
 المبدأ الثاني بكل بساطة معناه أن يكون الـClass قابل لتمدد بدون مايتم التعديل على الـClass نفسه
 
->> Objects or entities should be open for extension, but closed for modification.
+> > Objects or entities should be open for extension, but closed for modification.
 
-من أشهر الأمثلة على هذا المبدأ هو AreaCalculator للـShapes.
-أحرص دائماً على كتابة Class فيه المتطلبات الأساسية له وأترك الباقي يتولى أمره من سيقوم بوراثته Inheritance 
+فمثلاً لدينا Class مستطيل لديه متغيرين طول وعرض وClass آخر يقوم بحساب المساحة من خلال تمرير مصفوفة من المستطيلات 
+
 ```csharp
 public class Rectangle
 {
@@ -53,13 +56,79 @@ public class AreaCalculator
         double area = 0;
         foreach (var shape in shapes)
         {
-            area += shape.Width*shape.Height;
+            area += shape.Width * shape.Height;
         }
 
         return area;
     }
 }
 ```
+
+الى هنا النظام يعمل بشكل صحيح الى أن تتغير المتطلبات والآن نريد أن نضيف أيضا شكل الدائرة ونريد ان نقوم بحساب مساحتها أيضاً وجميعاً يعرف أن طريقة حساب مساحة الدائرة يختلف عن المستطيل الحل السريع أن نضع IF Statement في دالة Area كما في المثال لنعرف إذا كانت المصفوفة مستطيل أو دائرة وفي كل مره تتغير المتطلبات أو نريد اضافة شكل جديد سنقوم بتغيير بإضافة IF جديدة وهلماً جرى وهنا نحن نكسر مبدأ Open for extention and Closed for modification 
+
+```csharp
+public double Area(object[] shapes)
+{
+    double area = 0;
+    foreach (var shape in shapes)
+    {
+        if (shape is Rectangle)
+        {
+            Rectangle rectangle = (Rectangle) shape;
+            area += rectangle.Width * rectangle.Height;
+        }
+        else
+        {
+            Circle circle = (Circle)shape;
+            area += circle.Radius * circle.Radius * Math.PI;
+        }
+    }
+
+    return area;
+}
+```
+
+ماهو الحل إذا؟
+
+الحل أن نقوم بإنشاء Abstract Class Shape ونجعل جميع الأشكال لدينا وهي المستطيل والدائرة ترث منه (Inheritance) ليجبرون على إنشاء دالة Area التي سوف نستخدمها في حساب المساحة وكل شكل هنا سنقوم بكتابة طريقة حساب مساحته عند إنشاءه
+
+```csharp
+public abstract class Shape
+{
+    public abstract double Area();
+}
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+    public override double Area()
+    {
+        return Width * Height;
+    }
+}
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    public override double Area()
+    {
+        return Radius * Radius * Math.PI;
+    }
+}
+```
+
+رائع! الآن نستطيع حساب مساحة مجموع الأشكال التي لدينا وحتى لو اضفنا شكل جديد من دون الحاجة للتعديل على Class AreaCalculator لأن في كل شكل لدينا نحن نضمن أن هناك دالة لحساب مساحته وهي دالة Area 
+```csharp
+public double Area(Shape[] shapes)
+{
+    double area = 0;
+    foreach (var shape in shapes)
+    {
+        area += shape.Area();
+    }
+    return area;
+}
+```
+
 
 
 ### المبدئ الثالث: Liskov Substitution Principle
