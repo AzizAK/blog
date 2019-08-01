@@ -5,3 +5,8 @@
   direction: rtl;
   lost-center: $layout-width;
 }
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  direction: ltr;
+}
