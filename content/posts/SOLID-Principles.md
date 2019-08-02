@@ -139,13 +139,43 @@ LSP هو المبدأ الثالث من مبادئ SOLID وهو أن يجب أن
 ومن أشهر الأمثلة في هذا المبدأ، المستطيل يتكون من أربع جوانب وأربع زوايا صحيحة، المربع من الناحية الأخرى لديه أربع جوانب **متساوية** وأربع زوايا صحيحة أيضاً فهندسياً المربع هو مستطيل لكن المستطيل جوانبه مختلفة هنا تظهر قوة مبدأ LSP تقول Baraba Liskov وهي من قام بتقديم هذا المبدأ يجب علينا أن نستبدل مابين علاقة is a الى علاقة is substituation وفي المثال توضح الفكرة أكثر
 
 ```csharp
-public class Rectangle {    public virtual int Width { get; set; }    public virtual int Height { get; set; }}public class AreaCalculator {    public static int Area(Rectangle rect) {        return rect.Width * rect.Height;    }}
+public class Rectangle {    
+  public virtual int Width { get; set; }    
+  public virtual int Height { get; set; }
+}
+public class AreaCalculator {    
+  public static int Area(Rectangle rect) {       
+    return rect.Width * rect.Height;    
+  }
+}
 ```
 
 الان لدينا Class للمستطيل فيه الطول والعرض وClass آخر لحساب المساحة يقوم بضرب الطول في العرض ويرجع لنا الناتج. جميل الآن بما أننا قلنا أن المربع هو مستطيل سنقوم بإنشاء Class للمربع يحمل يرث صفات المستطيل
 
 ```csharp
-public class Square : Rectangle {    private int _height;    public override int Height     {        get { return _height; }        set         {            _width = value;            _height = value;        }    }    private int _width;    public override int Width     {        get { return _width; }        set         {            _width = value;            _height = value;        }    }}
+public class Square : Rectangle 
+{    
+  private int _height;    
+  public override int Height     
+  {        
+    get { return _height; }        
+    set         
+    {            
+      _width = value;            
+      _height = value;        
+    }    
+  }    
+  private int _width;    
+  public override int Width     
+  {        
+    get { return _width; }        
+    set         
+    {            
+      _width = value;            
+      _height = value;        
+    }    
+  }
+}
 ```
 
 هنا نقوم بتغيير بسيط في الطول والعرض وهو يجب أن يكون الطول مساوي للعرض والعكس صحيح ولا لن يكون الشكل مربع قمنا بعمل override للطول والعرض لضمان أن متى ماغيرنا قيمة الطول ستتغير قيمة العرض يتكون مساوية لها والعكس صحيح.
