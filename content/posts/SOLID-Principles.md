@@ -182,6 +182,17 @@ public class Square : Rectangle
 
 الى الآن البرنامج يعمل بشكل صحيح ولا يشكو من أي عله الى أن نصل لهذه المرحلة
 
+```csharp
+Rectangle myRect = new Square();
+myRect.Width = 10;
+myRect.Height = 20;
+Console.WriteLine(AreaCalculator.Area(myRect)); // 400
+```
+
+الجواب هنا سيكون ٤٠٠ وهو ناتج ضرب ٢٠ في ٢٠ قام البرنامج بإعادة تعيين العرض عندما قمنا بتغيير الطول وهنا نقع بالمحظور
+
+ما الحل إذاً؟
+
 ### المبدئ الرابع: Interfaces Segregation Principle
 
 هنا الشرح
