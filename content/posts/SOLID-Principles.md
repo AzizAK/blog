@@ -136,21 +136,25 @@ LSP هو المبدأ الثالث من مبادئ SOLID وهو أن يجب أن
 
 > subtypes must be substitutable for their base types
 
-ومن أشهر الأمثلة في هذا المبدأ، المستطيل يتكون من أربع جوانب وأربع زوايا صحيحة، المربع من الناحية الأخرى لديه أربع جوانب **متساوية** وأربع زوايا صحيحة أيضاً فهندسياً المربع هو مستطيل لكن المستطيل جوانبه مختلفة هنا تظهر قوة مبدأ LSP تقول Baraba Liskov وهي من قام بتقديم هذا المبدأ يجب علينا أن نستبدل مابين علاقة is a الى علاقة is substituation وفي المثال توضح الفكرة أكثر
+ومن أشهر الأمثلة في هذا المبدأ مثال "المستطيل والمربع"، المستطيل يتكون من أربع جوانب وأربع زوايا صحيحة، المربع من الناحية الأخرى لديه أربع جوانب **متساوية** وأربع زوايا صحيحة أيضاً فهندسياً المربع هو مستطيل لكن المستطيل جوانبه مختلفة هنا تظهر قوة مبدأ LSP تقول Baraba Liskov وهي من قام بتقديم هذا المبدأ يجب علينا أن نستبدل مابين علاقة is a الى علاقة is substituation وفي المثال توضح الفكرة أكثر
 
 ```csharp
-public class Rectangle {    
+public class Rectangle 
+{    
   public virtual int Width { get; set; }    
   public virtual int Height { get; set; }
 }
-public class AreaCalculator {    
-  public static int Area(Rectangle rect) {       
+
+public class AreaCalculator 
+{    
+  public static int Area(Rectangle rect) 
+  {       
     return rect.Width * rect.Height;    
   }
 }
 ```
 
-الان لدينا Class للمستطيل فيه الطول والعرض وClass آخر لحساب المساحة يقوم بضرب الطول في العرض ويرجع لنا الناتج. جميل الآن بما أننا قلنا أن المربع هو مستطيل سنقوم بإنشاء Class للمربع يحمل يرث صفات المستطيل
+الان لدينا Class للمستطيل فيه الطول والعرض وClass آخر لحساب المساحة يقوم بضرب الطول في العرض ويرجع لنا الناتج. جميل الآن بما أننا قلنا أن المربع هو مستطيل سنقوم بإنشاء Class للمربع يحمل يرث Class المستطيل
 
 ```csharp
 public class Square : Rectangle 
@@ -178,7 +182,7 @@ public class Square : Rectangle
 }
 ```
 
-هنا نقوم بتغيير بسيط في الطول والعرض وهو يجب أن يكون الطول مساوي للعرض والعكس صحيح ولا لن يكون الشكل مربع قمنا بعمل override للطول والعرض لضمان أن متى ماغيرنا قيمة الطول ستتغير قيمة العرض يتكون مساوية لها والعكس صحيح.
+هنا نقوم بتغيير بسيط في خصائص Class المربع وهو يجب أن يكون الطول والعرض متساويين ولا لن يكون الشكل مربع سنقوم بعمل override للطول والعرض لضمان أن متى ماتم تغيير قيمة الطول ستتغير قيمة العرض لتكون مساوية لها والعكس صحيح.
 
 الى الآن البرنامج يعمل بشكل صحيح ولا يشكو من أي عله الى أن نصل لهذه المرحلة
 
@@ -189,13 +193,100 @@ myRect.Height = 20;
 Console.WriteLine(AreaCalculator.Area(myRect)); // 400
 ```
 
-الجواب هنا سيكون ٤٠٠ وهو ناتج ضرب ٢٠ في ٢٠ قام البرنامج بإعادة تعيين العرض عندما قمنا بتغيير الطول وهنا نقع بالمحظور
+في السطر الأول نريد إنشاء Object من نوع مستطيل ولكن قمنا بإنشاء مربع، وأيضاً قمنا بجعل العرض يساوي ١٠ والطول يساوي ٢٠ إذا أردنا حساب المساحة فنحن نتوقع الجواب أن يكون ٢٠٠ وهو حاصل ضرب ١٠ في ٢٠ لكن نتفاجئ أن الجواب ٤٠٠ وهو ناتج ضرب ٢٠ في ٢٠ قام البرنامج بإعادة تعيين العرض عندما قمنا بتغيير الطول وهنا نقع بالمحظور لأن كلما كبر حجم البرنامج الذي تعمل عليه سيكون من الصعب مجاراة مثل هذه المشاكل من الممكن أن تقول هنا واضح أننا اردنا مستطيل لكننا أنشئنا مربع في السطر الأول لكن تخيل أنها Function تستقبل مجموعة مستطيلات والمبرمج أرسل مجموعة مربعات هنا سيأخذ وقت طويل لمعرفة أين الخطأ
 
 ما الحل إذاً؟
 
-### المبدئ الرابع: Interfaces Segregation Principle
+يوجد حليين في هذه الحالة الأول نحن نعرف أن المربع يجب أن تكون جوانبه متساويه فمن الممكن أن نضع Property لمعرفة هل هذا الـClass مربع أم مستطيل
 
-هنا الشرح
+```csharp
+public class Rectangle 
+{    
+  public int Width { get; set; }    
+  public int Height { get; set; }
+  public bool IsSquare => Height == Width;
+}
+```
+والحل الثاني هو فصل Class المستطيل عن Class المربع
+```csharp
+public class Rectangle 
+{    
+  public int Width { get; set; }    
+  public int Height { get; set; }
+}
+
+public class Square 
+{    
+  public int Side { get; set; }    
+}
+```
+
+### المبدئ الرابع: Interfaces Segregation Principle
+وصلنا للمبدأ الرابع في المجموعة وهو فصل الـInterfaces
+>> Clients should not be forced to depend upon interfaces that they do not use.
+
+العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء functions لا يستخدمونها.
+```csharp
+interface IBirdToy {
+  void SetPrice();
+  void SetColor();
+  void Walk();
+  void Fly();
+}
+
+class ParrotToy : IBirdToy 
+{
+  int Price;
+  string Color;
+
+  public void SetPrice(double price) 
+  {
+    this.Price = price;
+  }
+  
+  public void SetColor(string color) 
+  {
+    this.Color = color;
+  }
+
+  public void Move() 
+  {
+    //Code to move.
+  }
+
+  public void Fly()
+  {
+    //Code to fly
+  }
+}
+
+class PenguinToy : IBird 
+{
+  int Price;
+  string Color;
+
+  public void SetPrice(double price) 
+  {
+    this.Price = price;
+  }
+  
+  public void SetColor(string color) 
+  {
+    this.Color = color;
+  }
+  
+  public void Move() 
+  {
+    //Code to move.
+  }
+
+  public void Fly()
+  {
+    throw new NotImplementedException();
+  }
+}
+```
+تخيل أننا نقوم بعمل نظام لألعاب الطيور مثلاً هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع 
 
 ### المبدئ الخامس: Dependency Inversion Principle
 
