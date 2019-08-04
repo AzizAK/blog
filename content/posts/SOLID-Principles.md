@@ -249,9 +249,9 @@ class ParrotToy : IBirdToy
     this.Color = color;
   }
 
-  public void Move() 
+  public void Walk() 
   {
-    //Code to move.
+    //Code to walk.
   }
 
   public void Fly()
@@ -275,9 +275,9 @@ class PenguinToy : IBirdToy
     this.Color = color;
   }
   
-  public void Move() 
+  public void Walk() 
   {
-    //Code to move.
+    //Code to walk.
   }
 
   public void Fly()
@@ -317,9 +317,9 @@ class ParrotToy : IBirdToy, IWalkable, IFlyable
 	{
 		this.Color = color;
 	}
-	public void Move()
+	public void Walk()
 	{
-		//Code to move.  
+		//Code to walk.  
 	}
 	public void Fly()
 	{
@@ -339,13 +339,9 @@ class PenguinToy : IBirdToy, IWalkable
 	{
 		this.Color = color;
 	}
-	public void Move()
+	public void Walk()
 	{
-		//Code to move.  
-	}
-	public void Fly()
-	{
-		throw new NotImplementedException();
+		//Code to walk.  
 	}
 }
 ```
