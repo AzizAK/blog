@@ -130,7 +130,7 @@ public double Area(Shape[] shapes)
 }
 ```
 
-### المبدئ الثالث: Liskov Substitution Principle
+### المبدأ الثالث: Liskov Substitution Principle
 
 LSP هو المبدأ الثالث من مبادئ SOLID وهو أن يجب أن تكون الـClasses الموروثة (الفرعية) ترث جميع صفات الـClasses التي ترث منها
 
@@ -221,11 +221,11 @@ public class Square
 }
 ```
 
-### المبدئ الرابع: Interfaces Segregation Principle
+### المبدأ الرابع: Interfaces Segregation Principle
 وصلنا للمبدأ الرابع في المجموعة وهو فصل الـInterfaces
 >> Clients should not be forced to depend upon interfaces that they do not use.
 
-العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء functions لا يستخدمونها.
+العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء Functions لا يستخدمونها. بمعنى يجب علينا فصل الـInterfaces لتكون أصغر لتلبي احتياج العميل بدقة. على غرار المبدأ الأول SRP نقوم بفصل الـInterfaces لتقليل الأثار الجانبية والتكرار عن طريق فصل البرنامج لأجزاء صغيرة
 ```csharp
 interface IBirdToy {
   void SetPrice();
@@ -260,7 +260,7 @@ class ParrotToy : IBirdToy
   }
 }
 
-class PenguinToy : IBird 
+class PenguinToy : IBirdToy 
 {
   int Price;
   string Color;
@@ -286,24 +286,71 @@ class PenguinToy : IBird
   }
 }
 ```
-تخيل أننا نقوم بعمل نظام لألعاب الطيور مثلاً هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع 
+تخيل أننا نقوم بعمل نظام لبيع ألعاب طيور مثلاً هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع Functions سميناها IBirdToy وعندنا في النظام نوعين من الطيور وهي ببغاء وبطريق، في Class الببغاء إذا نظرنا في المثال أعلاه نستطيع بناء جميع هذه الـFunctions لكن في البطريق نضع في Function الـFly إستثناء من نوع NotImplementedException لأن البطريق لا يطير لكن الـInterface تجربنا على إنشاء هذه الـFunction وهنا نحن ننتهك المبدأ الرابع بأننا نجبر المبرمج على إنشاء Functions لا يستخدمها.
 
-### المبدئ الخامس: Dependency Inversion Principle
+الحل؟
+نقوم بفصل الـInterfaceالى ثلاث أقسام تابع المثال
+```csharp
+interface IBirdToy
+{
+	void SetPrice();
+	void SetColor();
+}
+interface IWalkable
+{
+	void Walk();
+}
+interface IFlyable
+{
+	void Fly();
+}
+
+class ParrotToy : IBirdToy, IWalkable, IFlyable
+{
+	int Price;
+	string Color;
+	public void SetPrice(double price)
+	{
+		this.Price = price;
+	}
+	public void SetColor(string color)
+	{
+		this.Color = color;
+	}
+	public void Move()
+	{
+		//Code to move.  
+	}
+	public void Fly()
+	{
+		//Code to fly  
+	}
+}
+
+class PenguinToy : IBirdToy, IWalkable
+{
+	int Price;
+	string Color;
+	public void SetPrice(double price)
+	{
+		this.Price = price;
+	}
+	public void SetColor(string color)
+	{
+		this.Color = color;
+	}
+	public void Move()
+	{
+		//Code to move.  
+	}
+	public void Fly()
+	{
+		throw new NotImplementedException();
+	}
+}
+```
+في المثال اعلاه فصلنا الـInterfaces الخاصة بالمشي والخاصة بالطيران كل على حده بهذه الطريقة نحن نضمن أن العملاء لن يحتاجون لبناء Functions لا يحتاجونها.
+
+### المبدأ الخامس: Dependency Inversion Principle
 
 هنا الشرح
-
-![42-line-bible.jpg](/media/42-line-bible.jpg)
-_The 42–Line Bible, printed by Gutenberg._
-
-<figure>
-	<blockquote>
-		<p>Knowledge of the quality of a typeface is of the greatest importance for the functional, aesthetic and psychological effect.</p>
-		<footer>
-			<cite>— Josef Mueller-Brockmann</cite>
-		</footer>
-	</blockquote>
-</figure>
-
-> Humane typography will often be comparatively rough and even uncouth; but while a certain uncouthness does not seriously matter in humane works, uncouthness has no excuse whatever in the productions of the machine.
->
-> — Eric Gill
