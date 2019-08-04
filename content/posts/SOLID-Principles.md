@@ -3,20 +3,20 @@ template: post
 title: مبادئ SOLID في الـObject Oriented
 slug: /posts/solid-principles/
 draft: false
-date: "2019-07-30T22:40:32.169Z"
+date: '2019-07-30T22:40:32.169Z'
 description: هنا سيتم كتابة وصف للمقالة
 category: برمجة
 tags:
   - برمجة
   - تقنية
 ---
-
-- [المقدمة](#مقدمة)
-- [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
+* [المقدمة](#مقدمة)
+* [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
+* [في الختام](#في-الختام)
 
 ## مقدمة
 
-**S.O.L.I.D.** هي أختصار لخمسة مبادئ أساسية عندما تقوم ببرمجة بإستخدام الـObject Oriented
+كلمة S.O.L.I.D هي اختصار لخمسة مبادئ أساسية في برمجة الـObject Oriented 
 
 1. Single Responsibility Principle
 2. Open\Closed Principle
@@ -24,23 +24,47 @@ tags:
 4. Interfaces Segregation Principle
 5. Dependency Inversion Principle
 
-قام [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـ Uncle Bob بتقديمها لأول مره في رسالته "Design Principles and Design Patterns"
+مبادئ SOLID تعتبر معايير للبرمجة كما انه تقودك اذا طبقتها بشكل سليم الى كتابة كود نظيف Clean Code، تم تقديمها لأول مره بواسطة [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـإسم Uncle Bob في رسالته "Design Principles and Design Patterns" المكونة من ٢٠٠٠ صفحة.
 
 ### ماهي الفائدة من هذه المبادئ؟
 
-عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف لاحقاً كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر.
+عندما يقوم المبرمج بكتابة برنامج من دون اتباع معايير معيينه ينتج الى ذلك تصميم سيء للبرنامج مما يؤدي الى برنامج غير قابل للتوسع ومليء بالاخطاء البرمجية (Bugs) عند قيامك بأي تعديل لاحقاً ولكن عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف الان كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر. مع أمثلة تطبيقية لذلك بإستخدام لغة C# لكنها تنبطق على أي لغة Object Oriented.
 
 ### المبدأ الأول: Single Responsibility Principle
 
-المبدأ الأول مبني على قاعدة أساسية وهي في حالة كتابتك أي Class يجب أن يكون له سبب واحد للتغيير ومهمة واحدة يعمل لها. كأن أن لا يكون لديك Employee Class يحفظ معلومات الموظف ويقوم بالإتصال بقاعدة البيانات مثلاً هنا يجب أن تفصل مابين هذه المهمتين.
+المبدأ الأول هو مبدأ المسؤولية الواحدة لكل جزء من البرنامج سواء كان Class او Functions
 
-> > A class should have one and only one reason to change, meaning that a class should have only one job.
+> Each software module should have one and only one reason to change, meaning that a module should have only one job.
+
+أي وحده برمجية مثل Class أو Function يجب أن يكون لها سبب واحد للتعديل بمعنى أنه يجب انه تحقق مهمة واحدة فقط
+وهنا مثال بسيط يوضح المبدأ وكيف تطبيقة
+```csharp
+public class InvitationService
+{
+	public void SendInvite(string email, string firstName, string lastName)
+    {
+    	if(String.IsNullOrWhiteSpace(firstName) || String.IsNullOrWhiteSpace(lastName))
+        {
+         	throw new Exception("Name is not valid!");
+        }
+    	
+    	if(!email.Contains("@") || !email.Contains("."))
+        {
+        	throw new Exception("Email is not valid!!");
+        }
+
+        SmtpClient client = new SmtpClient();
+        client.Send(new MailMessage("mysite@nowhere.com", email) 
+{ Subject = "Please join me at my party!" });
+    }
+}
+```
 
 ### المبدأ الثاني: Open/Closed Principle
 
 المبدأ الثاني بكل بساطة معناه أن يكون الـClass قابل لتمدد بدون مايتم التعديل على الـClass نفسه
 
-> > Objects or entities should be open for extension, but closed for modification.
+> Objects or entities should be open for extension, but closed for modification.
 
 فمثلاً لدينا Class مستطيل لديه متغيرين طول وعرض وClass آخر يقوم بحساب المساحة من خلال تمرير مصفوفة من المستطيلات
 
@@ -460,3 +484,7 @@ public class Notification
 ```
 
 وبهذا التعديل في الكود جعلنا الـhigh level classes لا تعتمد على الـlow-level classes جميعهم يعتمدون على الـinterface التي بينهم.
+
+### في الختام
+
+ستبدو هذه المبادئ الخمسة صعبة التطبيق في البداية لكن من خلال الممارسة ستتعتاد ومن خلال تطبيقها ستحصد ثمارها في حال كبر حجم البرنامج لديك لانه سيكون قابل لإعادة الاستخدام وقابل للصيانة وقابل للاختبار بسهولة.
