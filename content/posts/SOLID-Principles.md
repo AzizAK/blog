@@ -3,15 +3,16 @@ template: post
 title: مبادئ SOLID في الـObject Oriented
 slug: /posts/solid-principles/
 draft: false
-date: '2019-07-30T22:40:32.169Z'
+date: "2019-07-30T22:40:32.169Z"
 description: هنا سيتم كتابة وصف للمقالة
 category: برمجة
 tags:
   - برمجة
   - تقنية
 ---
-* [المقدمة](#مقدمة)
-* [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
+
+- [المقدمة](#مقدمة)
+- [ماهي الفائدة؟](#ماهي-الفائدة-من-هذه-المبادئ؟)
 
 ## مقدمة
 
@@ -41,7 +42,7 @@ tags:
 
 > > Objects or entities should be open for extension, but closed for modification.
 
-فمثلاً لدينا Class مستطيل لديه متغيرين طول وعرض وClass آخر يقوم بحساب المساحة من خلال تمرير مصفوفة من المستطيلات 
+فمثلاً لدينا Class مستطيل لديه متغيرين طول وعرض وClass آخر يقوم بحساب المساحة من خلال تمرير مصفوفة من المستطيلات
 
 ```csharp
 public class Rectangle
@@ -64,7 +65,7 @@ public class AreaCalculator
 }
 ```
 
-الى هنا النظام يعمل بشكل صحيح الى أن تتغير المتطلبات والآن نريد أن نضيف أيضا شكل الدائرة ونريد ان نقوم بحساب مساحتها أيضاً وجميعاً يعرف أن طريقة حساب مساحة الدائرة يختلف عن المستطيل الحل السريع أن نضع IF Statement في دالة Area كما في المثال لنعرف إذا كانت المصفوفة مستطيل أو دائرة وفي كل مره تتغير المتطلبات أو نريد اضافة شكل جديد سنقوم بتغيير بإضافة IF جديدة وهلماً جرى وهنا نحن نكسر مبدأ Open for extention and Closed for modification 
+الى هنا النظام يعمل بشكل صحيح الى أن تتغير المتطلبات والآن نريد أن نضيف أيضا شكل الدائرة ونريد ان نقوم بحساب مساحتها أيضاً وجميعاً يعرف أن طريقة حساب مساحة الدائرة يختلف عن المستطيل الحل السريع أن نضع IF Statement في دالة Area كما في المثال لنعرف إذا كانت المصفوفة مستطيل أو دائرة وفي كل مره تتغير المتطلبات أو نريد اضافة شكل جديد سنقوم بتغيير بإضافة IF جديدة وهلماً جرى وهنا نحن نكسر مبدأ Open for extention and Closed for modification
 
 ```csharp
 public double Area(object[] shapes)
@@ -116,7 +117,7 @@ public class Circle : Shape
 }
 ```
 
-رائع! الآن نستطيع حساب مساحة مجموع الأشكال التي لدينا وحتى لو اضفنا شكل جديد من دون الحاجة للتعديل على Class AreaCalculator لأن في كل شكل لدينا نحن نضمن أن هناك دالة لحساب مساحته وهي دالة Area 
+رائع! الآن نستطيع حساب مساحة مجموع الأشكال التي لدينا وحتى لو اضفنا شكل جديد من دون الحاجة للتعديل على Class AreaCalculator لأن في كل شكل لدينا نحن نضمن أن هناك دالة لحساب مساحته وهي دالة Area
 
 ```csharp
 public double Area(Shape[] shapes)
@@ -139,17 +140,17 @@ LSP هو المبدأ الثالث من مبادئ SOLID وهو أن يجب أن
 ومن أشهر الأمثلة في هذا المبدأ مثال "المستطيل والمربع"، المستطيل يتكون من أربع جوانب وأربع زوايا صحيحة، المربع من الناحية الأخرى لديه أربع جوانب **متساوية** وأربع زوايا صحيحة أيضاً فهندسياً المربع هو مستطيل لكن المستطيل جوانبه مختلفة هنا تظهر قوة مبدأ LSP تقول Baraba Liskov وهي من قام بتقديم هذا المبدأ يجب علينا أن نستبدل مابين علاقة is a الى علاقة is substituation وفي المثال توضح الفكرة أكثر
 
 ```csharp
-public class Rectangle 
-{    
-  public virtual int Width { get; set; }    
+public class Rectangle
+{
+  public virtual int Width { get; set; }
   public virtual int Height { get; set; }
 }
 
-public class AreaCalculator 
-{    
-  public static int Area(Rectangle rect) 
-  {       
-    return rect.Width * rect.Height;    
+public class AreaCalculator
+{
+  public static int Area(Rectangle rect)
+  {
+    return rect.Width * rect.Height;
   }
 }
 ```
@@ -157,27 +158,27 @@ public class AreaCalculator
 الان لدينا Class للمستطيل فيه الطول والعرض وClass آخر لحساب المساحة يقوم بضرب الطول في العرض ويرجع لنا الناتج. جميل الآن بما أننا قلنا أن المربع هو مستطيل سنقوم بإنشاء Class للمربع يحمل يرث Class المستطيل
 
 ```csharp
-public class Square : Rectangle 
-{    
-  private int _height;    
-  public override int Height     
-  {        
-    get { return _height; }        
-    set         
-    {            
-      _width = value;            
-      _height = value;        
-    }    
-  }    
-  private int _width;    
-  public override int Width     
-  {        
-    get { return _width; }        
-    set         
-    {            
-      _width = value;            
-      _height = value;        
-    }    
+public class Square : Rectangle
+{
+  private int _height;
+  public override int Height
+  {
+    get { return _height; }
+    set
+    {
+      _width = value;
+      _height = value;
+    }
+  }
+  private int _width;
+  public override int Width
+  {
+    get { return _width; }
+    set
+    {
+      _width = value;
+      _height = value;
+    }
   }
 }
 ```
@@ -200,32 +201,37 @@ Console.WriteLine(AreaCalculator.Area(myRect)); // 400
 يوجد حليين في هذه الحالة الأول نحن نعرف أن المربع يجب أن تكون جوانبه متساويه فمن الممكن أن نضع Property لمعرفة هل هذا الـClass مربع أم مستطيل
 
 ```csharp
-public class Rectangle 
-{    
-  public int Width { get; set; }    
+public class Rectangle
+{
+  public int Width { get; set; }
   public int Height { get; set; }
   public bool IsSquare => Height == Width;
 }
 ```
+
 والحل الثاني هو فصل Class المستطيل عن Class المربع
+
 ```csharp
-public class Rectangle 
-{    
-  public int Width { get; set; }    
+public class Rectangle
+{
+  public int Width { get; set; }
   public int Height { get; set; }
 }
 
-public class Square 
-{    
-  public int Side { get; set; }    
+public class Square
+{
+  public int Side { get; set; }
 }
 ```
 
 ### المبدأ الرابع: Interfaces Segregation Principle
+
 وصلنا للمبدأ الرابع في المجموعة وهو فصل الـInterfaces
->> Clients should not be forced to depend upon interfaces that they do not use.
+
+> > Clients should not be forced to depend upon interfaces that they do not use.
 
 العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء Functions لا يستخدمونها. بمعنى يجب علينا فصل الـInterfaces لتكون أصغر لتلبي احتياج العميل بدقة. على غرار المبدأ الأول SRP نقوم بفصل الـInterfaces لتقليل الأثار الجانبية والتكرار عن طريق فصل البرنامج لأجزاء صغيرة
+
 ```csharp
 interface IBirdToy {
   void SetPrice();
@@ -234,22 +240,22 @@ interface IBirdToy {
   void Fly();
 }
 
-class ParrotToy : IBirdToy 
+class ParrotToy : IBirdToy
 {
   int Price;
   string Color;
 
-  public void SetPrice(double price) 
+  public void SetPrice(double price)
   {
     this.Price = price;
   }
-  
-  public void SetColor(string color) 
+
+  public void SetColor(string color)
   {
     this.Color = color;
   }
 
-  public void Walk() 
+  public void Walk()
   {
     //Code to walk.
   }
@@ -260,22 +266,22 @@ class ParrotToy : IBirdToy
   }
 }
 
-class PenguinToy : IBirdToy 
+class PenguinToy : IBirdToy
 {
   int Price;
   string Color;
 
-  public void SetPrice(double price) 
+  public void SetPrice(double price)
   {
     this.Price = price;
   }
-  
-  public void SetColor(string color) 
+
+  public void SetColor(string color)
   {
     this.Color = color;
   }
-  
-  public void Walk() 
+
+  public void Walk()
   {
     //Code to walk.
   }
@@ -286,10 +292,12 @@ class PenguinToy : IBirdToy
   }
 }
 ```
+
 تخيل أننا نقوم بعمل نظام لبيع ألعاب طيور مثلاً هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع Functions سميناها IBirdToy وعندنا في النظام نوعين من الطيور وهي ببغاء وبطريق، في Class الببغاء إذا نظرنا في المثال أعلاه نستطيع بناء جميع هذه الـFunctions لكن في البطريق نضع في Function الـFly إستثناء من نوع NotImplementedException لأن البطريق لا يطير لكن الـInterface تجربنا على إنشاء هذه الـFunction وهنا نحن ننتهك المبدأ الرابع بأننا نجبر المبرمج على إنشاء Functions لا يستخدمها.
 
 الحل؟
 نقوم بفصل الـInterfaceالى ثلاث أقسام تابع المثال
+
 ```csharp
 interface IBirdToy
 {
@@ -319,11 +327,11 @@ class ParrotToy : IBirdToy, IWalkable, IFlyable
 	}
 	public void Walk()
 	{
-		//Code to walk.  
+		//Code to walk.
 	}
 	public void Fly()
 	{
-		//Code to fly  
+		//Code to fly
 	}
 }
 
@@ -341,12 +349,114 @@ class PenguinToy : IBirdToy, IWalkable
 	}
 	public void Walk()
 	{
-		//Code to walk.  
+		//Code to walk.
 	}
 }
 ```
+
 في المثال اعلاه فصلنا الـInterfaces الخاصة بالمشي والخاصة بالطيران كل على حده بهذه الطريقة نحن نضمن أن العملاء لن يحتاجون لبناء Functions لا يحتاجونها.
 
 ### المبدأ الخامس: Dependency Inversion Principle
 
-هنا الشرح
+يهتم هذا المبدأ في المقام الأول بتقليل التبعيات (dependencies) بين وحدات الكود. يمكننا التفكير في الأمر على أنه يحتاج إلى low-level objects لتعريف العقود -مثل Interface- التي يمكن أن تستخدمها high-level objects، دون الحاجة إلى أن تهتم بالتنفيذ بالضبط الذي توفره low-level objects.
+
+> High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions.
+
+وفي المثال سنقوم بشرح ما المقصود بالـlow-level و high-level ومثال على طريقة تحقيق هذا المبدأ.
+
+لنفترض أننا سنقوم ببناء نظام لإرسال تنبيهات للعملاء ونريد أن نرسل التنبيهات عن طريق الـEmail والـSMS
+
+```csharp
+public class Email
+{
+  public string ToAddress { get; set; }
+  public string Subject { get; set; }
+  public string Content { get; set; }
+  public void SendEmail() {
+    //Send email implementation
+  }
+}
+public class SMS
+{
+  public string PhoneNumber { get; set; }
+  public string Message { get; set; }
+  public void SendSMS()
+  {
+    //Send sms implementation
+  }
+}
+
+public class Notification
+{
+  private Email _email;
+  private SMS _sms;
+  public Notification()
+  {
+    _email = new Email();
+    _sms = new SMS();
+  }
+  public void Send()
+  {
+    _email.SendEmail();
+    _sms.SendSMS();
+  }
+}
+```
+
+في هذه الحالة Class Notification يعتبر high-level يعتمد على Email Class و SMS Class وبهذه الحالة هم يعتبرون low-level. في المثال اعلاه نحن ننتهك مبدأ DIP بإعتماد Class Notification على Email وSMS مباشرة من دون الفصل بينهما. وبهذا الفعل نحن نجعل الكود مقترن بعضه ببعض بطريقة تجعل من الصعب التعديل عليه مستقبلاً ولو تلاحظ تركز جميع المبادئ على تقليل الاعتمادية في الكود ببعضه البعض.
+
+حسناً كيف يمكننا تحقيق مبدأ DIP؟سنجعل الـhigh level class يعتمد على interface وسنجعل الـlow-level class التي لدينا نقوم بإنشاء هذه الـinterface. تابع المثال
+
+```csharp
+public interface IMessage
+{
+  void SendMessage();
+}
+```
+
+الآن سنجعل جميعاً الـEmail class وSMS class يقومون بإنشاء Function اسمها SendMessage
+
+```csharp
+public class Email : IMessage
+{
+  public string ToAddress { get; set; }
+  public string Subject { get; set; }
+  public string Content { get; set; }
+  public void SendMessage()
+  {
+    //Send email
+  }
+}
+
+public class SMS : IMessage
+{
+  public string PhoneNumber { get; set; }
+  public string Message { get; set; }
+  public void SendMessage()
+  {
+    //Send sms
+  }
+}
+```
+
+وفي الأخير مثل ماسبق وقلنا سنجعل الـNotification Class يعتمد على هذه الـInterface أيضاً. تابع
+
+```csharp
+public class Notification
+{
+  private ICollection<IMessage> _messages;
+  public Notification(ICollection<IMessage> messages)
+  {
+    this._messages = messages;
+  }
+  public void Send()
+  {
+    foreach(var message in _messages)
+    {
+      message.SendMessage();
+    }
+  }
+}
+```
+
+وبهذا التعديل في الكود جعلنا الـhigh level classes لا تعتمد على الـlow-level classes جميعهم يعتمدون على الـinterface التي بينهم.
