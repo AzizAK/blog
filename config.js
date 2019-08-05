@@ -8,7 +8,7 @@ module.exports = {
   copyright: "© جميع الحقوق محفوظة.",
   disqusShortname: "",
   postsPerPage: 4,
-  googleAnalyticsId: "UA-73379983-2",
+  googleAnalyticsId: "UA-145142294-1",
   useKatex: false,
   menu: [
     {
@@ -31,7 +31,7 @@ module.exports = {
     contacts: {
       email: "#",
       twitter: "aziz9kh",
-      github: "azizkh",
+      github: "azizak",
       rss: "#"
     }
   }
