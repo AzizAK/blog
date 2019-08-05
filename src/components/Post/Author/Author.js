@@ -17,7 +17,7 @@ const Author = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <strong>{author.name}</strong> في تويتر
+          تجدني في تويتر <strong>{author.name}</strong>
         </a>
       </p>
     </div>
