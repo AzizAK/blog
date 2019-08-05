@@ -1,9 +1,9 @@
 ---
 template: post
-title: مبادئ SOLID في الـObject Oriented
+title: مقدمة في مبادئ SOLID وكيف تبني كود نظيف
 slug: /posts/solid-principles/
 draft: false
-date: '2019-07-30T22:40:32.169Z'
+date: 2019-08-05T11:40:32.169Z
 description: هنا سيتم كتابة وصف للمقالة
 category: برمجة
 tags:
@@ -24,11 +24,11 @@ tags:
 4. Interfaces Segregation Principle
 5. Dependency Inversion Principle
 
-مبادئ SOLID تعتبر معايير للبرمجة كما انه تقودك اذا طبقتها بشكل سليم الى كتابة كود نظيف Clean Code، تم تقديمها لأول مره بواسطة [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـإسم Uncle Bob في رسالته "Design Principles and Design Patterns" المكونة من ٢٠٠٠ صفحة.
+مبادئ SOLID تعتبر معايير للبرمجة كما انه تقودك اذا طبقتها بشكل سليم الى كتابة كود نظيف (Clean Code)، تم تقديمها لأول مره بواسطة [Robert C. Martin](https://en.wikipedia.org/wiki/Robert_C._Martin) المعروف بـإسم Uncle Bob في رسالته "Design Principles and Design Patterns".
 
 ### ماهي الفائدة من هذه المبادئ؟
 
-عندما يقوم المبرمج بكتابة برنامج من دون اتباع معايير معيينه ينتج الى ذلك تصميم سيء للبرنامج مما يؤدي الى برنامج غير قابل للتوسع ومليء بالاخطاء البرمجية (Bugs) عند قيامك بأي تعديل لاحقاً ولكن عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف الان كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر. مع أمثلة تطبيقية لذلك بإستخدام لغة C# لكنها تنبطق على أي لغة Object Oriented.
+عندما يقوم المبرمج بكتابة برنامج من دون اتباع معايير معيينه ينتج الى ذلك تصميم سيء للبرنامج مما يؤدي الى برنامج غير قابل للتوسع ومليء بالاخطاء البرمجية عند قيامك بأي تعديل لاحقاً، ولكن عندما تقوم ببرمجة وفقاً لهذه المبادئ سيكون لديك برنامج أبسط في الفهم لك وللمبرمجين الآخرين، أسهل في الصيانة، وقابل للتوسع. وسنعرف الان كيف يكون تطبيق هذه المبادئ يساعد في تحقيق ماذكر. مع أمثلة تطبيقية لذلك بإستخدام لغة #C لكنها تنبطق على أي لغة Object Oriented.
 
 ### المبدأ الأول: Single Responsibility Principle
 
@@ -36,7 +36,7 @@ tags:
 
 > Each software module should have one and only one reason to change, meaning that a module should have only one job.
 
-أي وحده برمجية مثل Class أو Function يجب أن يكون لها سبب واحد للتعديل بمعنى أنه يجب انه تحقق مهمة واحدة فقط
+أي وحده برمجية مثل Class أو Function وغيرها يجب أن يكون لها سبب واحد للتعديل بمعنى أنه يجب انه تحقق مهمة واحدة فقط
 وهنا مثال بسيط يوضح المبدأ وكيف تطبيقة
 ```csharp
 public class InvitationService
@@ -54,11 +54,71 @@ public class InvitationService
         }
 
         SmtpClient client = new SmtpClient();
-        client.Send(new MailMessage("mysite@nowhere.com", email) 
-{ Subject = "Please join me at my party!" });
+        client.Send(new MailMessage("yourEmail@kharashi.me", email)
+        {
+            Subject = "Hello World"
+        });
     }
 }
 ```
+لنقل أننا نريد أن نبني خدمة لإرسال دعوات للمستخدمين مثلاً. في المثال دالة SendInvite تقوم بإرسال الدعوة لكن قبل ذلك تقوم بالتحقق من أن الأسم الأول والثاني موجودين وأيضاً تقوم بالتحقق من صحة كتابة البريد الإلكتروني. هنا في هذه الدالة لو أردنا ان نقوم بتغيير بسيط بقوانين التحقق سنقوم بإعادة كتابة الدالة وهي ليست من مهامها وأيضاً ستكون أكثر تعقيدناً. ببساطة لأن لها أكثر من سبب للتغيير مثل التحقق للبريد الاكتروني او الاسم الاول او حتى تغيير طريقة ارسال الدعوات.
+
+حسناً كيف يمكننا كتابة الكود بطريقة جيدة تتماشى مع مبدأ SRP؟
+```csharp
+public class UserNameService
+{
+    public void Validate(string firstName, string lastName)
+    {
+        if(String.IsNullOrWhiteSpace(firstName) || String.IsNullOrWhiteSpace(lastName))
+        {
+            throw new Exception("The name is invalid!");
+        }
+    }
+}
+```
+
+وأيضاً سنقوم بفصل التحقق من صحة البريد الإلكتروني لـClass أخر خاص به.
+
+```csharp
+public class EmailService
+{
+    public void Validate(string email)
+    {
+        if (!email.Contains("@") || !email.Contains("."))
+        {
+            throw new Exception("Email is not valid!!");
+        }
+    }
+}
+```
+
+بعد ذلك ستكون دالة SendInvite كالتالي
+
+```csharp
+public class InvitationService
+{
+    UserNameService _userNameService;
+    EmailService _emailService;
+
+    public InvitationService(UserNameService userNameService, EmailService emailService)
+    {
+        _userNameService = userNameService;
+        _emailService = emailService;
+    }
+    public void SendInvite(string email, string firstName, string lastName)
+    {
+        _userNameService.Validate(firstName, lastName);
+        _emailService.Validate(email);
+        SmtpClient client = new SmtpClient();
+        client.Send(new MailMessage("yourEmail@kharashi.me", email)
+        {
+            Subject = "Hello World"
+        });
+    }
+}
+```
+
+الآن لو تلاحظ كل Class من الذي كتبناها له سبب واحد للتغيير اذ اردنا تغيير طريقة التحقق من صحة البريد الإلكتروني سنقوم بتغيير EmailService فقط من دون الذهاب وتغيير دالة SendInvite 
 
 ### المبدأ الثاني: Open/Closed Principle
 
@@ -115,7 +175,7 @@ public double Area(object[] shapes)
 
 ماهو الحل إذا؟
 
-الحل أن نقوم بإنشاء Abstract Class Shape ونجعل جميع الأشكال لدينا وهي المستطيل والدائرة ترث منه (Inheritance) ليجبرون على إنشاء دالة Area التي سوف نستخدمها في حساب المساحة وكل شكل هنا سنقوم بكتابة طريقة حساب مساحته عند إنشاءه
+الحل أن نقوم بإنشاء Abstract Class Shape ونجعل جميع الأشكال لدينا وهي المستطيل والدائرة ترث منه (Inheritance) ليجبرون على إنشاء دالة Area التي سوف نستخدمها في حساب المساحة وكل شكل هنا سنقوم بكتابة طريقة حساب مساحته الخاص به عند إنشاءه.
 
 ```csharp
 public abstract class Shape
@@ -141,7 +201,7 @@ public class Circle : Shape
 }
 ```
 
-رائع! الآن نستطيع حساب مساحة مجموع الأشكال التي لدينا وحتى لو اضفنا شكل جديد من دون الحاجة للتعديل على Class AreaCalculator لأن في كل شكل لدينا نحن نضمن أن هناك دالة لحساب مساحته وهي دالة Area
+رائع! الآن نستطيع حساب مساحة مجموع الأشكال التي لدينا وحتى لو اضفنا شكل جديد من دون الحاجة للتعديل على Class AreaCalculator لأن في كل شكل لدينا نحن نضمن أن هناك دالة لحساب مساحته وهي دالة Area.
 
 ```csharp
 public double Area(Shape[] shapes)
@@ -154,6 +214,7 @@ public double Area(Shape[] shapes)
     return area;
 }
 ```
+وبهذه الطريقة نحن نحقق المبدأ الثاني بأننا نستطيع التوسع بالـClass ومن دون الحاجة لتعديله.
 
 ### المبدأ الثالث: Liskov Substitution Principle
 
@@ -215,7 +276,8 @@ public class Square : Rectangle
 Rectangle myRect = new Square();
 myRect.Width = 10;
 myRect.Height = 20;
-Console.WriteLine(AreaCalculator.Area(myRect)); // 400
+Console.WriteLine(AreaCalculator.Area(myRect)); 
+// 400
 ```
 
 في السطر الأول نريد إنشاء Object من نوع مستطيل ولكن قمنا بإنشاء مربع، وأيضاً قمنا بجعل العرض يساوي ١٠ والطول يساوي ٢٠ إذا أردنا حساب المساحة فنحن نتوقع الجواب أن يكون ٢٠٠ وهو حاصل ضرب ١٠ في ٢٠ لكن نتفاجئ أن الجواب ٤٠٠ وهو ناتج ضرب ٢٠ في ٢٠ قام البرنامج بإعادة تعيين العرض عندما قمنا بتغيير الطول وهنا نقع بالمحظور لأن كلما كبر حجم البرنامج الذي تعمل عليه سيكون من الصعب مجاراة مثل هذه المشاكل من الممكن أن تقول هنا واضح أننا اردنا مستطيل لكننا أنشئنا مربع في السطر الأول لكن تخيل أنها Function تستقبل مجموعة مستطيلات والمبرمج أرسل مجموعة مربعات هنا سيأخذ وقت طويل لمعرفة أين الخطأ
@@ -254,7 +316,7 @@ public class Square
 
 > > Clients should not be forced to depend upon interfaces that they do not use.
 
-العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء Functions لا يستخدمونها. بمعنى يجب علينا فصل الـInterfaces لتكون أصغر لتلبي احتياج العميل بدقة. على غرار المبدأ الأول SRP نقوم بفصل الـInterfaces لتقليل الأثار الجانبية والتكرار عن طريق فصل البرنامج لأجزاء صغيرة
+العملاء -المبرمجين- لا يجب أن يجبرون على إنشاء Functions لا يستخدمونها. بمعنى يجب علينا فصل الـInterfaces لتكون أصغر لتلبي احتياج العميل بدقة. على غرار المبدأ الأول SRP نقوم بفصل الـInterfaces لتقليل الأثار الجانبية والتكرار عن طريق فصل البرنامج لأجزاء صغيرة.
 
 ```csharp
 interface IBirdToy {
@@ -317,7 +379,7 @@ class PenguinToy : IBirdToy
 }
 ```
 
-تخيل أننا نقوم بعمل نظام لبيع ألعاب طيور مثلاً هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع Functions سميناها IBirdToy وعندنا في النظام نوعين من الطيور وهي ببغاء وبطريق، في Class الببغاء إذا نظرنا في المثال أعلاه نستطيع بناء جميع هذه الـFunctions لكن في البطريق نضع في Function الـFly إستثناء من نوع NotImplementedException لأن البطريق لا يطير لكن الـInterface تجربنا على إنشاء هذه الـFunction وهنا نحن ننتهك المبدأ الرابع بأننا نجبر المبرمج على إنشاء Functions لا يستخدمها.
+تخيل أننا نقوم بعمل نظام لبيع ألعاب الطيور مثلاً -مثال غريب لكن يوضح الصورة :)- هنا لدينا Interface تجبر المبرمجين -العملاء- على إنشاء أربع Functions سميناها IBirdToy وعندنا في النظام نوعين من الطيور وهي ببغاء وبطريق، في Class الببغاء إذا نظرنا في المثال أعلاه نستطيع بناء جميع هذه الـFunctions لكن في البطريق نضع في Function الـFly إستثناء من نوع NotImplementedException لأن البطريق لا يطير لكن الـInterface تجربنا على إنشاء هذه الـFunction وهنا نحن ننتهك المبدأ الرابع بأننا نجبر المبرمج على إنشاء Functions لا يستخدمها.
 
 الحل؟
 نقوم بفصل الـInterfaceالى ثلاث أقسام تابع المثال
@@ -378,7 +440,7 @@ class PenguinToy : IBirdToy, IWalkable
 }
 ```
 
-في المثال اعلاه فصلنا الـInterfaces الخاصة بالمشي والخاصة بالطيران كل على حده بهذه الطريقة نحن نضمن أن العملاء لن يحتاجون لبناء Functions لا يحتاجونها.
+في المثال اعلاه فصلنا الـInterfaces الخاصة بالمشي والخاصة بالطيران كل على حده بهذه الطريقة نحن نضمن أن العملاء لن يضطرون لبناء Functions لا يحتاجونها.
 
 ### المبدأ الخامس: Dependency Inversion Principle
 
@@ -429,7 +491,8 @@ public class Notification
 
 في هذه الحالة Class Notification يعتبر high-level يعتمد على Email Class و SMS Class وبهذه الحالة هم يعتبرون low-level. في المثال اعلاه نحن ننتهك مبدأ DIP بإعتماد Class Notification على Email وSMS مباشرة من دون الفصل بينهما. وبهذا الفعل نحن نجعل الكود مقترن بعضه ببعض بطريقة تجعل من الصعب التعديل عليه مستقبلاً ولو تلاحظ تركز جميع المبادئ على تقليل الاعتمادية في الكود ببعضه البعض.
 
-حسناً كيف يمكننا تحقيق مبدأ DIP؟سنجعل الـhigh level class يعتمد على interface وسنجعل الـlow-level class التي لدينا نقوم بإنشاء هذه الـinterface. تابع المثال
+حسناً كيف يمكننا تحقيق مبدأ DIP؟
+سنجعل الـhigh level class يعتمد على interface وسنجعل الـlow-level class التي لدينا نقوم بإنشاء هذه الـinterface. تابع المثال
 
 ```csharp
 public interface IMessage
