@@ -1,12 +1,16 @@
 ---
 template: post
-title: طرق لإدارة المشاريع التقنية باستخدام git
-slug: tech
-draft: false
-date: 2020-01-09T08:04:10.244Z
-description: هنا وصف للمقالة
+title: ادارة المشاريع البرمجية باستخدام git
+slug: /posts/git-branching/
+draft: true
+date: 2019-08-05T11:40:32.169Z
+description: شرح مختصر للمقالة
 category: تقنية
 tags:
-  - برمجة، تقنية
+  - برمجة
+  - تقنية
 ---
-بابابلابلا
+
+- [المقدمة](#مقدمة)
+
+## مقدمة
