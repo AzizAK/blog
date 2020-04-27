@@ -2,7 +2,7 @@
 template: post
 title: "١. سلسلة دوت نت: البداية"
 slug: /posts/dotnet-first/
-draft: true
+draft: false
 date: 2020-04-27T11:40:32.169Z
 description: أول مقالة عن سلسلة تطوير تطبيقات بإستخدام ASP.NET Core
 category: تقنية
