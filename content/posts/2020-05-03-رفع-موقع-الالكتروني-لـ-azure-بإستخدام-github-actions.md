@@ -44,7 +44,7 @@ az ad sp create-for-rbac --name "myApp" --role contributor --scopes /subscriptio
 
 سننتقل الآن إلى خانة Actions في الـ Repository ونضيف new workflow. ستظهر لنا عدة نماذج نستطيع تجربتها لكن في هذه المقالة سنكتب الـ workflow الخاص بنا ونشرح كل خطوة فيه للتتضح الصور.
 
-![](/media/gotoactions.gif)
+![actions](/media/gotoactions.gif "actions")
 
 ```
 # 1) the trigger
