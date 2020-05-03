@@ -1,6 +1,6 @@
 ---
 template: post
-title: رفع موقع الالكتروني لـ Azure بإستخدام Github Actions
+title: رفع موقع الكتروني لـ Azure بإستخدام Github Actions
 slug: azureWithActions
 draft: false
 date: 2020-05-03T04:31:28.540Z
