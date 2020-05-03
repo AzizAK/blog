@@ -1,7 +1,7 @@
 ---
 template: post
 title: رفع موقع الالكتروني لـ Azure بإستخدام Github Actions
-slug: 'كيف تربط نظامك في Github مع Azure بواسطة Github Actions '
+slug: azureWithActions
 draft: false
 date: 2020-05-03T04:31:28.540Z
 description: 'كيف تربط نظامك في Github مع Azure بواسطة Github Actions '
