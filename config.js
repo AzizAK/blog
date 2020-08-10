@@ -12,17 +12,17 @@ module.exports = {
   useKatex: false,
   menu: [
     {
-      label: "المقالات",
-      path: "/"
+      label: "التدوينات",
+      path: "/",
     },
     {
       label: "عنّي",
-      path: "/pages/about"
+      path: "/pages/about",
     },
     {
-      label: "تواصل معي",
-      path: "/pages/contacts"
-    }
+      label: "خلنا نسولف",
+      path: "/letsTalk",
+    },
   ],
   author: {
     name: "عبدالعزيز الخراشي",
@@ -32,7 +32,7 @@ module.exports = {
       email: "#",
       twitter: "aziz9kh",
       github: "azizak",
-      rss: "#"
-    }
-  }
+      rss: "#",
+    },
+  },
 };
