@@ -7,12 +7,7 @@ import { useSiteMetadata } from "../hooks";
 
 const ContactTemplate = () => {
   const { title, subtitle } = useSiteMetadata();
-  useEffect(() => {
-    const head = document.querySelector("head");
-    const script = document.createElement("script");
-    script.setAttribute("src", "https://assets.calendly.com/assets/external/widget.js");
-    head.appendChild(script);
-  });
+
   return (
     <Layout title={`خلنا نسولف - ${title}`} description={subtitle}>
       <Page title="خلنا نسولف">
