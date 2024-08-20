@@ -25,11 +25,6 @@ const ContactTemplate = () => {
           <li>‫🎮 الألعاب أو الأفلام ‬</li>
           <li>‫🏦 المشاريع الناشئة‬</li>
         </ul>
-        <div
-          className="calendly-inline-widget"
-          data-url="https://calendly.com/azizkh/30min"
-          style={{ minWidth: "320px", height: "1000px" }}
-        />
       </Page>
       <Sidebar />
     </Layout>
